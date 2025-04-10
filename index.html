@@ -5,15 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant4U</title>
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
         .mySlides {
             display: none;
-            width: 300px;
+            width: 100%;
+            max-width: 300px;
             height: auto;
+            margin: 0 auto;
         }
 
         .media-section {
             display: flex;
             gap: 20px;
+            justify-content: center;
             margin-top: 20px;
         }
 
@@ -22,65 +49,108 @@
             width: 300px;
             height: auto;
         }
+
+        form {
+            margin-top: 30px;
+        }
+
+        #totalDisplay {
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Get The Delicious Roasted Chicken Right At Your Door</h1>
+    <div class="container">
+        <h1>Get The Delicious Roasted Chicken Right At Your Door</h1>
 
-    <!-- Slideshow Images -->
-    <img class="mySlides" src="chickenPlate.jpg" alt="Chicken Plate">
-    <img class="mySlides" src="chickenRoast.jpg" alt="Chicken Roast">
+        <!-- Slideshow -->
+        <img class="mySlides" src="chickenPlate.jpg" alt="Chicken Plate">
+        <img class="mySlides" src="chickenRoast.jpg" alt="Chicken Roast">
 
-    <script>
-        let slideIndex = 0;
-        showSlides();
+        <script>
+            let slideIndex = 0;
+            showSlides();
 
-        function showSlides() {
-            let slides = document.getElementsByClassName("mySlides");
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
+            function showSlides() {
+                let slides = document.getElementsByClassName("mySlides");
+                for (let i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) { slideIndex = 1 }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(showSlides, 2000);
             }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1 }
-            slides[slideIndex - 1].style.display = "block";
-            setTimeout(showSlides, 2000); // Change image every 2 seconds
-        }
-    </script>
+        </script>
 
-    <!-- New Image and Video Section (Side by side below slideshow) -->
-    <div class="media-section">
-        <img src="Money_Quest.jpg" alt="Money Quest Image">
-        <video controls>
-            <source src="mickeyMouse.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <!-- Media Section -->
+        <div class="media-section">
+            <img src="Money_Quest.jpg" alt="Money Quest Image">
+            <video controls>
+                <source src="mickeyMouse.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Form -->
+        <form id="orderForm">
+            <label>Enter your Name:</label>
+            <input type="text" name="name"><br><br>
+
+            <label>Choose the taste:</label><br>
+            <input type="checkbox" name="taste" value="35 onchange="calculateTotal()"> Halal (£35)<br>
+            <input type="checkbox" name="taste" value="14" onchange="calculateTotal()"> Spicy (£14)<br>
+            <input type="checkbox" name="taste" value="8" onchange="calculateTotal()"> With Salad (£8)<br><br>
+
+            <label>Choose the size:</label><br>
+            <input type="radio" name="size" value="75" onchange="calculateTotal()"> Whole (£75)<br>
+            <input type="radio" name="size" value="45" onchange="calculateTotal()"> Half (£45)<br>
+            <input type="radio" name="size" value="34" onchange="calculateTotal()"> Quarter (£34)<br><br>
+
+            <label>Choose the mode of delivery:</label>
+            <select>
+                <option>Same day (after 3 hours of the order)</option>
+                <option>Next day afternoon</option>
+                <option>Same day next week</option>
+            </select><br><br>
+
+            <button type="submit">Submit</button>
+            <button type="button" onclick="window.open('https://youtube.com', '_blank')">Go to YouTube</button>
+        </form>
+
+        <!-- Total Display -->
+        <div id="totalDisplay">Total Amount: £0</div>
+
+        <script>
+            function calculateTotal() {
+                let total = 0;
+
+                // Get all checked taste checkboxes
+                const tastes = document.querySelectorAll('input[name="taste"]:checked');
+                tastes.forEach(taste => {
+                    total += parseFloat(taste.value);
+                });
+
+                // Get selected size radio
+                const size = document.querySelector('input[name="size"]:checked');
+                if (size) {
+                    total += parseFloat(size.value);
+                }
+
+                let finalTotal = total;
+                let displayText = `Total Amount: £${total.toFixed(2)}`;
+
+                if (total > 100) {
+                    const discount = total * 0.15;
+                    finalTotal = total - discount;
+                    displayText += ` | Discount Applied (15%): -£${discount.toFixed(2)} | Final Total: £${finalTotal.toFixed(2)}`;
+                }
+
+                document.getElementById("totalDisplay").innerText = displayText;
+            }
+        </script>
     </div>
-
-    <!-- Form Section -->
-    <form>
-        <label>Enter your Name:</label>
-        <input type="text" name="name"><br><br>
-
-        <label>Choose the taste:</label><br>
-        <input type="checkbox" name="taste" value="halal"> Halal<br>
-        <input type="checkbox" name="taste" value="spicy"> Spicy<br>
-        <input type="checkbox" name="taste" value="salad"> With Salad<br><br>
-
-        <label>Choose the size:</label><br>
-        <input type="radio" name="size" value="whole"> Whole<br>
-        <input type="radio" name="size" value="half"> Half<br>
-        <input type="radio" name="size" value="quarter"> Quarter<br><br>
-
-        <label>Choose the mode of delivery:</label>
-        <select>
-            <option>Same day (after 3 hours of the order)</option>
-            <option>Next day afternoon</option>
-            <option>Same day next week</option>
-        </select><br><br>
-
-        <button type="submit">Submit</button>
-        <button type="button" onclick="window.open('https://youtube.com', '_blank')">Go to YouTube</button>
-    </form>
 </body>
 </html>
 
