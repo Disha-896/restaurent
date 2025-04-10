@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant4U</title>
+    <style>
+        .mySlides {
+            display: none;
+            width: 300px;
+            height: auto;
+        }
+
+        .media-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .media-section img,
+        .media-section video {
+            width: 300px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Get The Delicious Roasted Chicken Right At Your Door</h1>
+
+    <!-- Slideshow Images -->
+    <img class="mySlides" src="chickenPlate.jpg" alt="Chicken Plate">
+    <img class="mySlides" src="chickenRoast.jpg" alt="Chicken Roast">
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("mySlides");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+    </script>
+
+    <!-- New Image and Video Section (Side by side below slideshow) -->
+    <div class="media-section">
+        <img src="Money_Quest.jpg" alt="Money Quest Image">
+        <video controls>
+            <source src="mickeyMouse.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Form Section -->
+    <form>
+        <label>Enter your Name:</label>
+        <input type="text" name="name"><br><br>
+
+        <label>Choose the taste:</label><br>
+        <input type="checkbox" name="taste" value="halal"> Halal<br>
+        <input type="checkbox" name="taste" value="spicy"> Spicy<br>
+        <input type="checkbox" name="taste" value="salad"> With Salad<br><br>
+
+        <label>Choose the size:</label><br>
+        <input type="radio" name="size" value="whole"> Whole<br>
+        <input type="radio" name="size" value="half"> Half<br>
+        <input type="radio" name="size" value="quarter"> Quarter<br><br>
+
+        <label>Choose the mode of delivery:</label>
+        <select>
+            <option>Same day (after 3 hours of the order)</option>
+            <option>Next day afternoon</option>
+            <option>Same day next week</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+        <button type="button" onclick="window.open('https://youtube.com', '_blank')">Go to YouTube</button>
+    </form>
+</body>
+</html>
+
+
