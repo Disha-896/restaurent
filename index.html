@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: #d3d3d3;
+      background-color: white; /* Removed grey background */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,12 +17,13 @@
     }
 
     .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      max-width: 800px;
+      background-color: transparent; /* Removed white box */
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+      max-width: 100%;
       width: 100%;
+      text-align: center;
     }
 
     h1 {
@@ -42,6 +43,7 @@
       gap: 20px;
       justify-content: center;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
 
     .media-section img,
@@ -52,6 +54,8 @@
 
     form {
       margin-top: 30px;
+      text-align: left;
+      display: inline-block;
     }
 
     #totalDisplay {
@@ -104,7 +108,7 @@
       <input type="checkbox" name="taste" value="8" data-label="With Salad" onchange="calculateTotal()"> With Salad (£8)<br><br>
 
       <label>Choose the size:</label><br>
-      <input type="radio" name="size" value="75" data-label="Whole" onchange="calculateTotal()"> Whole (£75)<br>
+      <input type="radio" name="size" value="65" data-label="Whole" onchange="calculateTotal()"> Whole (£65)<br>
       <input type="radio" name="size" value="25" data-label="Half" onchange="calculateTotal()"> Half (£25)<br>
       <input type="radio" name="size" value="14" data-label="Quarter" onchange="calculateTotal()"> Quarter (£14)<br><br>
 
@@ -154,18 +158,18 @@
       }
 
       document.getElementById("orderForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // prevent actual submission
+        event.preventDefault();
 
         const name = document.getElementById("customerName").value || "Customer";
 
-        const tastes = Array.from(document.querySelectorAll('input[name="taste"]:checked'))
-            .map(t => t.getAttribute('data-label'));
+        const tasteItems = Array.from(document.querySelectorAll('input[name="taste"]:checked'))
+          .map(t => `${t.getAttribute('data-label')} (£${t.value})`);
 
         const sizeElement = document.querySelector('input[name="size"]:checked');
-        const sizeLabel = sizeElement ? sizeElement.getAttribute('data-label') : "None";
+        const sizeLabel = sizeElement ? `${sizeElement.getAttribute('data-label')} (£${sizeElement.value})` : "None";
 
-        let message = `Hello ${name}!\n\nYour Order:\n- Tastes: ${tastes.length > 0 ? tastes.join(", ") : "None"}\n- Size: ${sizeLabel}\n\nTotal: £${total.toFixed(2)}`;
-        
+        let message = `Hello ${name}!\n\nYour Order:\n- Tastes: ${tasteItems.length > 0 ? tasteItems.join(", ") : "None"}\n- Size: ${sizeLabel}\n\nTotal: £${total.toFixed(2)}`;
+
         if (discount > 0) {
           message += `\nDiscount (15%): -£${discount.toFixed(2)}\nFinal Total: £${finalTotal.toFixed(2)}`;
         }
@@ -176,5 +180,6 @@
   </div>
 </body>
 </html>
+
 
 
